@@ -4,12 +4,14 @@ export default class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      address: "",
-      city: "",
-      country: "",
-      isRules: false,
+      form: {
+        email: "",
+        password: "",
+        address: "",
+        city: "",
+        country: "",
+        acceptRules: false,
+      },
       isSubmit: false,
     };
   }
@@ -24,46 +26,33 @@ export default class MyForm extends React.Component {
     this.setState((state) => ({ ...state, isSubmit: false }));
   };
 
-  handleCHhange = ({ target }) => {};
-
-  handleChange = (e, id) => {
-    switch (id) {
-      case "email":
-        this.setState((state) => ({ ...state, email: e.target.value }));
-        break;
-      case "password":
-        this.setState((state) => ({ ...state, password: e.target.value }));
-        break;
-      case "address":
-        this.setState((state) => ({ ...state, address: e.target.value }));
-        break;
-      case "city":
-        this.setState((state) => ({ ...state, city: e.target.value }));
-        break;
-      case "country":
-        this.setState((state) => ({ ...state, country: e.target.value }));
-        break;
-      case "rules":
-        this.setState((state) => ({ ...state, isRules: e.target.checked }));
-        break;
-      default:
-        "no";
-        break;
-    }
+  handleChange = ({ target }) => {
+    const { form } = this.state;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    this.setState({ form: { ...form, [target.name]: value } });
   };
-  render() {
-    const { email, password, address, city, country, isRules, isSubmit } =
-      this.state;
 
-    const form = (
+  render() {
+    const { form, isSubmit } = this.state;
+    const renderRows = () =>
+      Object.entries(form)
+        .sort()
+        .map(([key, value]) => (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{typeof value === "boolean" ? value.toString() : value}</td>
+          </tr>
+        ));
+
+    const formData = (
       <form onSubmit={this.handleSubmit} name="myForm">
         <div className="col-md-6 mb-3">
           <label htmlFor="email" className="col-form-label">
             Email
           </label>
           <input
-            onChange={(event) => this.handleChange(event, "email")}
-            value={email}
+            onChange={this.handleChange}
+            value={form.email}
             type="email"
             name="email"
             className="form-control"
@@ -76,8 +65,8 @@ export default class MyForm extends React.Component {
             Password
           </label>
           <input
-            onChange={(event) => this.handleChange(event, "password")}
-            value={password}
+            onChange={this.handleChange}
+            value={form.password}
             type="password"
             name="password"
             className="form-control"
@@ -90,8 +79,8 @@ export default class MyForm extends React.Component {
             Address
           </label>
           <textarea
-            onChange={(event) => this.handleChange(event, "address")}
-            value={address}
+            onChange={this.handleChange}
+            value={form.address}
             type="text"
             className="form-control"
             name="address"
@@ -104,8 +93,8 @@ export default class MyForm extends React.Component {
             City
           </label>
           <input
-            onChange={(event) => this.handleChange(event, "city")}
-            value={city}
+            onChange={this.handleChange}
+            value={form.city}
             type="text"
             className="form-control"
             name="city"
@@ -117,8 +106,8 @@ export default class MyForm extends React.Component {
             Country
           </label>
           <select
-            onChange={(event) => this.handleChange(event, "country")}
-            value={country}
+            onChange={this.handleChange}
+            value={form.country}
             id="country"
             name="country"
             className="form-control"
@@ -133,8 +122,8 @@ export default class MyForm extends React.Component {
           <div className="form-check">
             <label className="form-check-label" htmlFor="rules">
               <input
-                onChange={(event) => this.handleChange(event, "rules")}
-                checked={isRules}
+                onChange={this.handleChange}
+                checked={form.acceptRules}
                 id="rules"
                 type="checkbox"
                 name="acceptRules"
@@ -160,36 +149,11 @@ export default class MyForm extends React.Component {
           Back
         </button>
         <table className="table">
-          <tbody>
-            <tr>
-              <td>acceptRules</td>
-              <td>{String(isRules)}</td>
-            </tr>
-            <tr>
-              <td>address</td>
-              <td>{address}</td>
-            </tr>
-            <tr>
-              <td>city</td>
-              <td>{city}</td>
-            </tr>
-            <tr>
-              <td>country</td>
-              <td>{country}</td>
-            </tr>
-            <tr>
-              <td>email</td>
-              <td>{email}</td>
-            </tr>
-            <tr>
-              <td>password</td>
-              <td>{password}</td>
-            </tr>
-          </tbody>
+          <tbody>{renderRows()}</tbody>
         </table>
       </div>
     );
 
-    return isSubmit ? table : form;
+    return isSubmit ? table : formData;
   }
 }
