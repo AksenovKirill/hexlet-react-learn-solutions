@@ -5,50 +5,26 @@ import React from "react";
 export default class Component extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { values: [], btn: { value: 0, id: "" } };
+    this.state = { values: [], value: 0 };
   }
-
   handleIncrement = () => {
-    this.setState(() => ({
-      ...this.state.btn,
-      value: (this.state.btn.value += 1),
-    }));
-    this.setState(() =>
-      this.state.values.push({ ...this.state.btn, id: uniqueId() })
-    );
+    this.setState((state) => [...state.values, { value: (state.value += 1) }]);
   };
-
-  handleDecrement = () => {
-    this.setState(() => ({
-      ...this.state.btn,
-      value: (this.state.btn.value -= 1),
-    }));
-    this.setState(() =>
-      this.state.values.push({ ...this.state.btn, id: uniqueId() })
-    );
-  };
-
-  handleDeleteLog = (value) => (e) => {
-    this.setState(() => ({
-      ...this.state,
-      values: [...this.state.values.filter((val) => val.value !== value)],
-    }));
-  };
-
   render() {
     const { values } = this.state;
-    const btns = values
-      .map((btn) => (
-        <button
-          key={btn.id}
-          onClick={this.handleDeleteLog(btn.value)}
-          type="button"
-          className="list-group-item list-group-item-action"
-        >
-          {btn.value}
-        </button>
-      ))
-      .reverse();
+    console.log(this.state);
+    // const items = values
+    //   .map((item) => (
+    //     <button
+    //       key={item.id}
+    //       onClick={this.handleDeleteLog(item.value)}
+    //       type="button"
+    //       className="list-group-item list-group-item-action"
+    //     >
+    //       {item.value}
+    //     </button>
+    //   ))
+    //   .reverse();
 
     return (
       <div>
@@ -68,7 +44,9 @@ export default class Component extends React.Component {
             -
           </button>
         </div>
-        {!!this.state.values.length && <div className="list-group">{btns}</div>}
+        {/* {!!this.state.values.length && (
+          <div className="list-group">{items}</div>
+        )} */}
       </div>
     );
   }

@@ -5,8 +5,8 @@ import MyForm from "./MyForm/MyForm";
 function App() {
   return (
     <div className="App">
-      {false && <Component />}
-      <MyForm />
+      <Component />
+      {false && <MyForm />}
     </div>
   );
 }
