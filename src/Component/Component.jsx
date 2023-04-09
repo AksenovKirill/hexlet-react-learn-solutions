@@ -5,26 +5,46 @@ import React from "react";
 export default class Component extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { values: [], value: 0 };
+    this.state = {
+      values: [],
+      value: 0,
+    };
   }
   handleIncrement = () => {
-    this.setState((state) => [...state.values, { value: (state.value += 1) }]);
+    this.setState((state) => ({ value: state.value + 1 }));
+    this.setState((state) => ({
+      values: [...state.values, { value: state.value, id: uniqueId() }],
+    }));
+  };
+
+  handleDecrement = () => {
+    this.setState((state) => ({ value: state.value - 1 }));
+    this.setState((state) => ({
+      values: [...state.values, { value: state.value, id: uniqueId() }],
+    }));
+  };
+
+  handleDelete = (value) => (event) => {
+    event.preventDefault();
+    console.log(typeof value);
+    this.setState((state) => ({
+      values: state.values.filter((elem) => value !== elem.value),
+    }));
   };
   render() {
     const { values } = this.state;
-    console.log(this.state);
-    // const items = values
-    //   .map((item) => (
-    //     <button
-    //       key={item.id}
-    //       onClick={this.handleDeleteLog(item.value)}
-    //       type="button"
-    //       className="list-group-item list-group-item-action"
-    //     >
-    //       {item.value}
-    //     </button>
-    //   ))
-    //   .reverse();
+    const items = values
+      .map((item) => (
+        <button
+          key={item.id}
+          onClick={this.handleDelete(item.value)}
+          type="button"
+          className="list-group-item list-group-item-action"
+        >
+          {item.value}
+        </button>
+      ))
+      .reverse();
 
     return (
       <div>
@@ -44,9 +64,9 @@ export default class Component extends React.Component {
             -
           </button>
         </div>
-        {/* {!!this.state.values.length && (
+        {!!this.state.values.length && (
           <div className="list-group">{items}</div>
-        )} */}
+        )}
       </div>
     );
   }
