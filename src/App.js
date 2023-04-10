@@ -10,7 +10,14 @@ function App() {
       {false && <Component />}
       {false && <MyForm />}
       {false && <TodoBox />}
-      {true && <Card />}
+      {true && (
+        <Card>
+          <Card.Body>
+            <Card.Title>title</Card.Title>
+            <Card.Text>1</Card.Text>
+          </Card.Body>
+        </Card>
+      )}
     </div>
   );
 }
