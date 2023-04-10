@@ -1,7 +1,7 @@
 import { uniqueId } from "lodash";
-import React, { Component } from "react";
+import React from "react";
 import Item from "./Item";
-export default class TodoBox extends Component {
+export default class TodoBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,9 +9,11 @@ export default class TodoBox extends Component {
       value: "",
     };
   }
+
   handleChange = (event) => {
     this.setState(() => ({ value: event.target.value }));
   };
+
   handleAddItem = (event) => {
     event.preventDefault();
     this.setState((state) => ({
@@ -19,13 +21,14 @@ export default class TodoBox extends Component {
       value: "",
     }));
   };
+
   handleRemove = (id) => (event) => {
     event.preventDefault();
-    console.log("aaa");
     this.setState((state) => ({
       tasks: state.tasks.filter((elem) => elem.id !== id),
     }));
   };
+
   render() {
     const { value, tasks } = this.state;
 
