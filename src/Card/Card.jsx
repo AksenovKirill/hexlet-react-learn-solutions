@@ -1,7 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class Card extends Component {
+const Title = ({ children }) => <h4 className="card-title">{children}</h4>;
+const Text = ({ children }) => <p className="card-text">{children}</p>;
+const Body = ({ children }) => <div className="card-body">{children}</div>;
+
+export default class Card extends React.Component {
+  static Body = Body;
+
+  static Title = Title;
+
+  static Text = Text;
+
   render() {
-    return <div>Card</div>;
+    const { children } = this.props;
+    return <div className="card">{children}</div>;
   }
 }
