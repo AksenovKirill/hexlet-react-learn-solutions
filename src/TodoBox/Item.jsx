@@ -2,15 +2,21 @@ import React, { Component } from "react";
 
 export default class Item extends Component {
   render() {
+    const { task, onRemove } = this.props;
+
     return (
       <div>
         <div class="row">
           <div class="col-auto">
-            <button type="button" class="btn btn-primary btn-sm">
+            <button
+              onClick={onRemove(task.id)}
+              type="button"
+              className="btn btn-primary btn-sm"
+            >
               -
             </button>
           </div>
-          <div class="col">second</div>
+          <div className="col">{task.value}</div>
         </div>
         <hr />
       </div>
