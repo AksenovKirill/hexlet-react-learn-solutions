@@ -1,4 +1,5 @@
 import "./App.css";
+import Card from "./Card/Card";
 import Component from "./Component/Component";
 import MyForm from "./MyForm/MyForm";
 import TodoBox from "./TodoBox/TodoBox";
@@ -8,7 +9,8 @@ function App() {
     <div className="App">
       {false && <Component />}
       {false && <MyForm />}
-      {true && <TodoBox />}
+      {false && <TodoBox />}
+      {true && <Card />}
     </div>
   );
 }
